@@ -18,9 +18,13 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Hello Everyone, nice to meet you!
 
-# Purpose of this project:
-### Here, I have been developing a new Application called Offline Saver
-### Some of you understand, by naming itslef.
-### It is the Application, where store your answers during online Assessment and when the situation happended of internet loss during that time, no need to fear about that, it will store on your browser built in Database IndexedDB. 
-### So, when you loss your internet, no need to worry about that, just answer to all of questions and finish and it stored on your browsers built in indexDB, then it automatically send it to the Assessment server.
-### So, it basically avoid the fearness of student during the assessment.
+# About This Project
+
+I am developing a new application called **Offline Saver**.
+
+As the name suggests, this tool is designed to help students during online assessments. If the internet connection is lost in the middle of an exam, there is no need to panic. Offline Saver will store all your answers directly in the browser using the built-in database, IndexedDB.
+
+So even if your internet goes down, you can continue answering the questions without worrying about losing your progress. Once the connection is restored, the data will automatically be submitted to the assessment server.
+
+In short, this application helps students stay confident and stress-free during online exams, even in uncertain network conditions.
+
