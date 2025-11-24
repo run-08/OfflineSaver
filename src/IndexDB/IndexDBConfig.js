@@ -43,29 +43,20 @@ const IndexDBConfig = () =>{
         console.log(data);
         let open = indexedDB.open(data?.title);
         open.onsuccess = (event) => {
-         const version = event.target.version;
-         open.close();
-         let newOpenRequest = indexedDB.open(data?.title);
-         newOpenRequest.onsuccess = (event) => {
             const db = event.target.result;
-            const tx = db.transaction(data?.objectStore,"readWrite");
+            const tx = db.transaction(data?.objectStore,"readwrite");
             const store = tx.objectStore(data?.objectStore);
-            const request = store.add(data);
+            const request = store.add(data?.answer);
             request.onsuccess = (event) =>{
                console.log("Added Successfully: "+(event.target.result));
             }
             request.onerror = (event) => {
-               console.log("Failed to save : "+(event.target));
+               console.log("Failed to save : "+(event.target.error));
             }
-         }
-         newOpenRequest.onerror = (event) => {
-            console.log("New Open request Failed to establish....");
-            console.log(`Error:${event.target}`);
-         }
         }
         open.onerror = (event) => {
           console.log(`Failed to open ${data?.title}!`);
-          console.log(event.target);
+          console.log(event.target.error);
         }
      }
      useEffect(()=>{

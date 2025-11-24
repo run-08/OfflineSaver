@@ -1,4 +1,6 @@
 import { useRoutes } from "react-router-dom";
+import MediaDevicesPermissions from "./Assessment/MediaDevicesPermissions";
+import WelcomePage from "./Assessment/WelcomePage";
 import IndexDBConfig from "./IndexDB/IndexDBConfig";
 import Home from "./Outlet/HomePage";
 import SectionMaker from "./Sections/SectionMaker";
@@ -25,7 +27,16 @@ const App = () =>{
   {
     path:"sectionMaker",
     element:<SectionMaker/>
-  }]
+  },
+  {
+    path:"welcomePage",
+    element:<WelcomePage/>
+  },
+  {
+    path:"permissions",
+    element:<MediaDevicesPermissions/>
+  }
+]
   }])
 }
 
