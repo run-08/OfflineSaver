@@ -35,6 +35,38 @@ const IndexDBConfig = () =>{
                 }
              }
         }
+        tempOpen.onerror = (event) =>{
+             console.log("Error occurred during upgraded: "+(event.target));
+        }
+     }
+     const addDataStore = ({data}) =>{
+        console.log(data);
+        let open = indexedDB.open(data?.title);
+        open.onsuccess = (event) => {
+         const version = event.target.version;
+         open.close();
+         let newOpenRequest = indexedDB.open(data?.title);
+         newOpenRequest.onsuccess = (event) => {
+            const db = event.target.result;
+            const tx = db.transaction(data?.objectStore,"readWrite");
+            const store = tx.objectStore(data?.objectStore);
+            const request = store.add(data);
+            request.onsuccess = (event) =>{
+               console.log("Added Successfully: "+(event.target.result));
+            }
+            request.onerror = (event) => {
+               console.log("Failed to save : "+(event.target));
+            }
+         }
+         newOpenRequest.onerror = (event) => {
+            console.log("New Open request Failed to establish....");
+            console.log(`Error:${event.target}`);
+         }
+        }
+        open.onerror = (event) => {
+          console.log(`Failed to open ${data?.title}!`);
+          console.log(event.target);
+        }
      }
      useEffect(()=>{
          configIndexDB();
