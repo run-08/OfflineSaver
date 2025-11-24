@@ -11,14 +11,13 @@ const IndexDBConfig = () =>{
            console.log(event.target.result.version);
         }
         openRequest.onerror = (event) => {
-            console.log(event.target);
+         console.log(event.target);
           console.log("IndexDB Failed to created!");
         }
      }
      const upgradeDB = () => {
         const tempOpen = indexedDB.open(sectionalDetails['title']);
         console.log(sectionalDetails['title']);
-        
         tempOpen.onsuccess = (event) =>{
              const db = event.target.result;
              const newVersion = db.version + 1;

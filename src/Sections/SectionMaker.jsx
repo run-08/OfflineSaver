@@ -4,7 +4,7 @@ import SectionZustand from "../SharedMemory/SectionZustand";
 const SectionMaker = () => {
     const[sections,setSections]=useState(0);
     const setSectionDetails = SectionZustand((state) => state.setSectionDetails);
-    const Details = {};
+    const [details,setDetails] = useState({});
     const navigate = useNavigate();
     return (
       <div className="sectionBody ">
@@ -13,7 +13,10 @@ const SectionMaker = () => {
                <form className="testForm">
                   <div className="grid grid-cols-1 test_name text-center">
                      <input type="text" max="50" className="outline-none font-semibold text-3xl title border-b-2 border-indigo-600 text-center mx-30  tracking-widest"  min="3" placeholder="Enter the testName" id="TestName" onChange={(e)=>{
-                            Details['title']=e.target.value;
+                            setDetails((prev)=>({
+                              ...prev,
+                              title:e.target.value,
+                            }))
                      }}/>
                   </div>
                     <div className=" my-10 border-3 mx-20 text-center rounded-xl border-indigo-500">
@@ -29,15 +32,19 @@ const SectionMaker = () => {
                     {
                          [...Array(Number(sections))].map((value,index)=>(
                              <input key={index} id={index} type="text" max="100" min="1" className="outline-none text-2xl  my-10 mx-20 border-b-2 border-green-300" placeholder="Enter the section name" onChange={(e)=>{
-                                Details[e.target.id]=e.target.value;
+                                  setDetails(prev => ({
+                                    ...prev,
+                                    [e.target.id]:e.target.value,
+                                  }));
+                                  console.log(details);
                              }}/>
                          )) 
                     }
                     <div className="grid grid-cols-3 ">
                         <button type="submit" className="col-start-2 h-10 rounded-sm text-xl cursor-pointer bg-red-700 text-white w-[50%] ml-40 mt-10 " onClick={(e)=>{
                             e.preventDefault();
-                            setSectionDetails(Details);
-                            console.log(Details);
+                            setSectionDetails(details);
+                            console.log(details);
                             navigate("/home/indexDb");
                         }}>Submit</button>
                     </div>
