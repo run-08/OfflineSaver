@@ -1,0 +1,16 @@
+spring:
+  application:
+    name:offlineServer
+#  datasource:
+#    url: mysql:jdbc://localhost:3306/Offlinesaver
+#    username: root
+#    password: Arunda95!
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create
+  data:
+    mongodb:
+      connection-string: mongodb://localhost:27017/Questions
+server:
+  port: 1000
