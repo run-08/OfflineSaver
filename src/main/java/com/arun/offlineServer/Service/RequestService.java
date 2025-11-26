@@ -15,6 +15,7 @@ public class RequestService {
 
     private final QuestionRepo questionRepo;
     public ResponseEntity<QuestionResponse> getResponse(QuestionRequestDTO questionRequestDTO) {
+        System.out.println(questionRequestDTO.toString());
        QuestionResponse questionResponse = questionRepo
                .findById(questionRequestDTO
                        .getSections())

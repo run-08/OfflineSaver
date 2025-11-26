@@ -8,18 +8,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/offline-saver/api")
 public class EndpointAPI {
 
     private final RequestService requestService;
-    @GetMapping("/getQuestions")
+    @PostMapping("/getQuestions")
     public ResponseEntity<QuestionResponse> sendQuestions(@RequestBody @Validated QuestionRequestDTO questionRequestDTO){
        return requestService.getResponse(questionRequestDTO);
     }
@@ -28,5 +26,4 @@ public class EndpointAPI {
     public ResponseEntity<?> saveQuestions(@RequestBody @Validated QuestionResponseDTO questionResponseDTO){
         return requestService.saveQuestions(questionResponseDTO);
     }
-
 }
