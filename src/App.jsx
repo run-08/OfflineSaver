@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import MediaDevicesPermissions from "./Assessment/MediaDevicesPermissions";
+import Questions from "./Assessment/TestPage/Questions";
 import WelcomePage from "./Assessment/WelcomePage";
 import IndexDBConfig from "./IndexDB/IndexDBConfig";
 import Home from "./Outlet/HomePage";
@@ -35,6 +36,10 @@ const App = () =>{
   {
     path:"permissions",
     element:<MediaDevicesPermissions/>
+  },
+  {
+    path:"assessment",
+    element:<Questions/>
   }
 ]
   }])
