@@ -1,7 +1,50 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import SectionZustand from "../SharedMemory/SectionZustand";
 const IndexDBConfig = () =>{ 
+   const[saved,setSaved] = useState(false);
+
     const sectionalDetails = SectionZustand((state) => state.sectionDetails); 
+    const location = useLocation();
+    const addDataStore = (data) =>{
+        console.log(data);
+        let open = indexedDB.open(data?.title);
+        open.onsuccess = (event) => {
+            const db = event.target.result;
+            const tx = db.transaction(data?.objectStore,"readwrite");
+            const store = tx.objectStore(data?.objectStore);
+            const request = store.add({id:new Date(),data:data});
+            request.onsuccess = (event) =>{
+               console.log(event);
+               console.log("Added Successfully: "+(event.target.result));
+               setSaved(true);
+            }
+            request.onerror = (event) => {
+               console.log("Failed to save : "+(event.target.error));
+            }
+            tx.oncomplete = () => {
+               console.log("Transaction Completed...");
+               const rtx = db.transaction(data?.objectStore,"readonly");
+               const store2 = rtx.objectStore(data?.objectStore);
+               const answers = store2.getAll();
+               answers.onsuccess = (event) => {
+                  console.log(event);  
+                  console.log(answers.result);
+               }
+            }
+        }
+        open.onerror = (event) => {
+          console.log(`Failed to open ${data?.title}!`);
+          console.log(event.target.error);
+        }
+     }
+    if(location.pathname === "/home/indexDB"){
+      const answers = location?.state?.answers
+      answers["title"]=location?.state?.title;
+      answers["objectStore"]=location?.state?.objectStore;
+      addDataStore(answers);
+      return;
+    }
      const configIndexDB = () =>{
         if(!sectionalDetails) return;
         let openRequest = indexedDB.open(sectionalDetails['title']);
@@ -39,26 +82,7 @@ const IndexDBConfig = () =>{
              console.log("Error occurred during upgraded: "+(event.target));
         }
      }
-     const addDataStore = ({data}) =>{
-        console.log(data);
-        let open = indexedDB.open(data?.title);
-        open.onsuccess = (event) => {
-            const db = event.target.result;
-            const tx = db.transaction(data?.objectStore,"readwrite");
-            const store = tx.objectStore(data?.objectStore);
-            const request = store.add(data?.answer);
-            request.onsuccess = (event) =>{
-               console.log("Added Successfully: "+(event.target.result));
-            }
-            request.onerror = (event) => {
-               console.log("Failed to save : "+(event.target.error));
-            }
-        }
-        open.onerror = (event) => {
-          console.log(`Failed to open ${data?.title}!`);
-          console.log(event.target.error);
-        }
-     }
+    
      useEffect(()=>{
          configIndexDB();
      },[]);

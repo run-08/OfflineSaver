@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const Questions = () => {
 
     const[questions,setQuestions] = useState({});
     const[questionId, setQuestionId] = useState(0);
     const[isLoading,setIsloading] = useState(false);
+    const[answers,setAnswers]=useState({});
+    const[objectStore,setObjectStore] = useState("undefined");
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const getQuestiosn = async() => {
@@ -14,18 +17,19 @@ const Questions = () => {
                 headers:{
                     "Content-Type":"application/json",
                 },
-                body:JSON.stringify({sections:"Grammar"})
+                body:JSON.stringify({sections:"Email Writing"})
             });
             const result = await response.json();
             setQuestions(result.response);
+            setObjectStore(result.sectionName);
             console.log(result);
-
-            
             if(result !== null && result !== undefined) setIsloading(true);
             }
             catch(e) {
                console.log(e);  
             }
+            console.log(answers);
+            
         }
         getQuestiosn();
     },[])
@@ -33,20 +37,7 @@ const Questions = () => {
     <div className="container bg-blue-100 mx-7 h-190 my-1">
       <div className="grid grid-cols-1">
            <div className=" questions-tag my-40 ">
-            <div className="Indexing border mb-20 w-200 outline-2 outline-blue-50 mx-50 border-blue-500">
-               <div className="question_first_half grid grid-cols-5">{
-                [...Array(5)].map((value,key)=>(
-                   <div className="border border-sky-300 bg-blue-700 text-center text-white  font-bold cursor-pointer outline-blue-300" key={key}>{key+1}</div>
-                ))
-                }</div>
-               <div className="question_second_half text-center bg-blue-700 text-white font-bold cursor-pointer grid grid-cols-5">
-                 {
-                [...Array(5)].map((value,key)=>(
-                   <div className="border border-sky-300 outline-blue-300" key={key}>{key+6}</div>
-                ))
-                }
-               </div>
-            </div>
+         
              <div className="questions mx-10">
                 <span className="question">
                    {
@@ -59,18 +50,17 @@ const Questions = () => {
                     {
                           isLoading ? 
                     <div className="my-4">
-                    <input type="radio" name={questions?.questions[questionId]?.id} className="my-4 cursor-pointer"  />
-                   <span className="text-xl font-bold"> {questions?.questions[questionId]?.options[0]}</span>
-                    <br />
-                    <input type="radio" name={questions?.questions[questionId]?.id} className="my-4 cursor-pointer"  />
-                     <span className="text-xl font-bold"> {questions?.questions[questionId]?.options[1]}</span>
-                    <br />
-                    <input type="radio" name={questions?.questions[questionId]?.id} className="my-4 cursor-pointer"  />
-                     <span className="text-xl font-bold"> {questions?.questions[questionId]?.options[2]}</span>
-                    <br />
-                    <input type="radio" name={questions?.questions[questionId]?.id} className="my-4 cursor-pointer"  /> 
-                     <span className="text-xl font-bold"> {questions?.questions[questionId]?.options[3]}</span>
-                    </div>
+                     {
+                        [...new Array(4)].map((value,key) =>(
+                         <div key={key}>
+                          <input type="radio" checked={answers[questionId] !== undefined && answers[questionId] === key }  name={questions?.questions[questionId]?.id} className="my-4 cursor-pointer"   onClick={(e)=> {
+                        setAnswers((answer) => ({...answer,[questionId]:key}));} } 
+                        /> 
+                          <span className="text-xl font-bold"> {questions?.questions[questionId]?.options[key]}</span>
+                    <br /></div>
+                        )) 
+                     }     
+                  </div>
                     :" "
                     }
                     <div className="btn grid grid-cols-5">
@@ -79,6 +69,14 @@ const Questions = () => {
                             </button>
                         <button className={`rounded border px-3 w-25 text-white ${questionId==9 ? "hidden":"block"} bg-sky-500 text-2xl py-2 cursor-pointer`} onClick={()=>setQuestionId(questionId+1)}>
                            Next
+                        </button>
+                          <button className={`rounded border px-3 w-25 text-white ${questionId !== 9 ? "hidden":"block"} bg-sky-500 text-2xl py-2 cursor-pointer`} onClick={()=>{
+                             setTimeout(()=>{
+                              console.log(answers);
+                              navigate("/home/indexDB",{state:{answers,objectStore,title:"Capgemini Communication Assessment - 1"}})
+                             },3000);
+                          }}>
+                           Submit
                         </button>
                     </div>
                 </span>
