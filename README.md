@@ -10,3 +10,7 @@ So even if your internet goes down, you can continue answering the questions wit
 
 In short, this application helps students stay confident and stress-free during online exams, even in uncertain network conditions.
 
+# Tech Stack:
+       - React JS for oprimization and efficiency
+       - Tailwind CSS for compatability
+       - Spring Boot for Authentication and data parsing
