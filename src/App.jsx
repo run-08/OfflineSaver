@@ -1,6 +1,7 @@
 import { useRoutes } from "react-router-dom";
 import MediaDevicesPermissions from "./Assessment/MediaDevicesPermissions";
-import Questions from "./Assessment/TestPage/Questions";
+import EmailWriting from "./Assessment/TestPage/EmailWriting";
+import Grammar from "./Assessment/TestPage/Grammar";
 import WelcomePage from "./Assessment/WelcomePage";
 import IndexDBConfig from "./IndexDB/IndexDBConfig";
 import Home from "./Outlet/HomePage";
@@ -39,7 +40,10 @@ const App = () =>{
   },
   {
     path:"assessment",
-    element:<Questions/>
+    element:<Grammar/>
+  },{
+    path:"email-writing",
+    element:<EmailWriting></EmailWriting>
   }
 ]
   }])

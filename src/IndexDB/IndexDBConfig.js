@@ -3,11 +3,9 @@ import { useLocation } from "react-router-dom";
 import SectionZustand from "../SharedMemory/SectionZustand";
 const IndexDBConfig = () =>{ 
    const[saved,setSaved] = useState(false);
-
     const sectionalDetails = SectionZustand((state) => state.sectionDetails); 
     const location = useLocation();
     const addDataStore = (data) =>{
-        console.log(data);
         let open = indexedDB.open(data?.title);
         open.onsuccess = (event) => {
             const db = event.target.result;
@@ -22,7 +20,7 @@ const IndexDBConfig = () =>{
             request.onerror = (event) => {
                console.log("Failed to save : "+(event.target.error));
             }
-            tx.oncomplete = () => {
+            tx.oncomplete = () => { 
                console.log("Transaction Completed...");
                const rtx = db.transaction(data?.objectStore,"readonly");
                const store2 = rtx.objectStore(data?.objectStore);

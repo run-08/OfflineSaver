@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const Questions = () => {
+const Grammar = () => {
 
     const[questions,setQuestions] = useState({});
     const[questionId, setQuestionId] = useState(0);
     const[isLoading,setIsloading] = useState(false);
     const[answers,setAnswers]=useState({});
-    const[objectStore,setObjectStore] = useState("undefined");
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -17,11 +16,10 @@ const Questions = () => {
                 headers:{
                     "Content-Type":"application/json",
                 },
-                body:JSON.stringify({sections:"Email Writing"})
+                body:JSON.stringify({sections:"Grammar"})
             });
             const result = await response.json();
             setQuestions(result.response);
-            setObjectStore(result.sectionName);
             console.log(result);
             if(result !== null && result !== undefined) setIsloading(true);
             }
@@ -29,7 +27,6 @@ const Questions = () => {
                console.log(e);  
             }
             console.log(answers);
-            
         }
         getQuestiosn();
     },[])
@@ -37,7 +34,6 @@ const Questions = () => {
     <div className="container bg-blue-100 mx-7 h-190 my-1">
       <div className="grid grid-cols-1">
            <div className=" questions-tag my-40 ">
-         
              <div className="questions mx-10">
                 <span className="question">
                    {
@@ -73,7 +69,7 @@ const Questions = () => {
                           <button className={`rounded border px-3 w-25 text-white ${questionId !== 9 ? "hidden":"block"} bg-sky-500 text-2xl py-2 cursor-pointer`} onClick={()=>{
                              setTimeout(()=>{
                               console.log(answers);
-                              navigate("/home/indexDB",{state:{answers,objectStore,title:"Capgemini Communication Assessment - 1"}})
+                              navigate("/home/indexDB",{state:{answers,objectStore:"Grammar",title:"Capgemini Communication Assessment - 1"}})
                              },3000);
                           }}>
                            Submit
@@ -88,4 +84,4 @@ const Questions = () => {
     </div>
    )
 }
-export default Questions;
+export default  Grammar;
